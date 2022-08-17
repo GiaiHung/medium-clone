@@ -1,11 +1,11 @@
-export interface Post {
+export interface PostProps {
   _id: string
-  _createdAt: string
   title: string
   author: {
     name: string
     image: string
   }
+  description: string
   mainImage: {
     assest: {
       url: string
@@ -14,5 +14,4 @@ export interface Post {
   slug: {
     current: string
   }
-  body: [object]
 }

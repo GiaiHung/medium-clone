@@ -1,17 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from 'next/head'
+import Link from 'next/link'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
+import Post from '../components/Post'
 
 import { sanityClient, urlFor } from '../sanity'
-import { Post } from '../typings'
+import { PostProps } from '../typings'
 
 interface Props {
-  posts: [Post]
+  posts: [PostProps]
 }
 
 const Home = ({ posts }: Props) => {
-  console.log(posts);
-  
   return (
     <div className="max-w-6xl mx-auto">
       <Head>
@@ -22,6 +23,20 @@ const Home = ({ posts }: Props) => {
 
       <Header />
       <Hero />
+
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 gap-3 md:gap-6 md:px-0'>
+        {posts.map(({ slug, _id, mainImage, author, title, description }) => (
+          <Post
+            key={_id}
+            _id={_id}
+            slug={slug}
+            mainImage={mainImage}
+            title={title}
+            description={description}
+            author={author}
+          />
+        ))}
+      </div>
     </div>
   )
 }

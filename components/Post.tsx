@@ -10,16 +10,16 @@ function Post({ slug, _id, mainImage, title, description, author }: PostProps) {
       <div className="cursor-pointer group rounded-lg">
         <div>
           <img
-            className="w-full object-cover group-hover:scale-105 ease-in-out duration-300 rounded-tl-lg rounded-tr-lg"
+            className="w-full h-60 object-cover group-hover:scale-105 ease-in-out duration-300 rounded-tl-lg rounded-tr-lg"
             src={urlFor(mainImage).url()}
             alt="main-image"
           />
         </div>
         <div className="flex items-center justify-between py-5">
-          <div>
-            <p className='text-lg font-bold'>{title}</p>
-            <p className='text-s w-72 truncate'>
-            {description} is created by {author.name}
+          <div className="w-72">
+            <p className="text-lg font-bold truncate">{title}</p>
+            <p className="text-s truncate">
+              {description} is created by {author.name}
             </p>
           </div>
           <div>

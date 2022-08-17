@@ -15,3 +15,8 @@ export interface PostProps {
     current: string
   }
 }
+
+export interface Post extends PostProps {
+  _createdAt: string,
+  body: object[],
+}

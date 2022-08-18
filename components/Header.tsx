@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 function Header() {
   return (
@@ -15,9 +15,9 @@ function Header() {
           />
         </Link>
         <div className="hidden md:inline-flex gap-x-5 items-center [&>*]:cursor-pointer">
-          <h3>About</h3>
-          <h3>Contact</h3>
-          <h3 className="text-white bg-green-600 px-4 py-1 rounded-full">Follow</h3>
+          <Link href='/'><h3 className='hover:underline'>Home</h3></Link>
+          <Link href='/about'><h3 className='hover:underline'>About</h3></Link>
+          <h3 className='hover:underline'>Contact</h3>
         </div>
       </div>
       <div className="flex items-center space-x-5 text-green-600 [&>*]:cursor-pointer">

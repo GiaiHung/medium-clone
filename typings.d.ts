@@ -1,5 +1,5 @@
 export interface PostProps {
-  _id: string
+  _id?: string
   title: string
   author: {
     name: string

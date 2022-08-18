@@ -4,7 +4,7 @@ import React from 'react'
 import { PostProps } from '../typings'
 import { urlFor } from '../sanity'
 
-function Post({ slug, _id, mainImage, title, description, author }: PostProps) {
+function Post({ slug, mainImage, title, description, author }: PostProps) {
   return (
     <Link passHref href={`/post/${slug.current}`}>
       <div className="cursor-pointer group rounded-lg">

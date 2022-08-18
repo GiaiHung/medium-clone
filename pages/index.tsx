@@ -28,7 +28,6 @@ const Home = ({ posts }: Props) => {
         {posts.map(({ slug, _id, mainImage, author, title, description }) => (
           <Post
             key={_id}
-            _id={_id}
             slug={slug}
             mainImage={mainImage}
             title={title}

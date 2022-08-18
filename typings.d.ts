@@ -6,7 +6,7 @@ export interface PostProps {
     image: string
   }
   description: string
-  comment: { _id: string, name: string, comment: string }[]
+  comment: Comment[];
   mainImage: {
     assest: {
       url: string
@@ -20,4 +20,20 @@ export interface PostProps {
 export interface Post extends PostProps {
   _createdAt: string,
   body: object[],
+}
+
+export interface Comment {
+  approved: boolean;
+  comment: string;
+  email: string;
+  name: string;
+  post: {
+    _ref: string;
+    _type: string;
+  };
+  _createdAt: string;
+  _id: string;
+  _rev: string;
+  _type: string;
+  _updateAt: string;
 }

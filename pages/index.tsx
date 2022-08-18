@@ -22,7 +22,7 @@ const Home = ({ posts }: Props) => {
       </Head>
 
       <Header />
-      <Hero />
+      <Hero />      
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 gap-3 md:gap-6 md:px-0'>
         {posts.map(({ slug, _id, mainImage, author, title, description }) => (

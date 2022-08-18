@@ -6,6 +6,7 @@ export interface PostProps {
     image: string
   }
   description: string
+  comment: { _id: string, name: string, comment: string }[]
   mainImage: {
     assest: {
       url: string

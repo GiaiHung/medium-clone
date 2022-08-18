@@ -4,6 +4,7 @@ import sanityClient from '@sanity/client'
 const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  apiVersion: '2021-08-29',
   useCdn: process.env.NODE_ENV === 'production',
   token: process.env.SANITY_API_TOKEN,
 }
@@ -25,9 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       comment
     }) 
   } catch (error) {
-    console.log(error);
-    
+    return res.status(500).json({ message: 'Could not update user comment', error})
   }
 
-  res.status(200).json({ name: 'John Doe' })
+  console.log('success!!');
+  return res.status(200).json({ name: 'Comment successfully updated!' })
 }

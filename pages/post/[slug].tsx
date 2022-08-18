@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../../components/Header'
 import { sanityClient, urlFor } from '../../sanity'
 import { Post as PostProps } from '../../typings'
@@ -20,7 +20,8 @@ interface FormProps {
 }
 
 function Post({ post }: Props) {
-  const { mainImage, title, description, author, _createdAt, body } = post
+  const { mainImage, title, description, author, comment, _createdAt, body } = post
+  const [submited, setSubmited] = useState(false)
 
   const {
     register,
@@ -33,8 +34,11 @@ function Post({ post }: Props) {
       method: 'POST',
       body: JSON.stringify(data),
     })
-      .then((data) => console.log(data))
-      .catch((error) => alert(error))
+      .then(() => setSubmited(true))
+      .catch((error) => {
+        alert(error)
+        setSubmited(false)
+      })
   }
 
   return (
@@ -91,52 +95,79 @@ function Post({ post }: Props) {
 
       <hr className="max-w-lg mx-auto my-5 border border-yellow-500" />
 
-      <form className="max-w-xl mx-auto flex flex-col p-5" onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="text-3xl font-bold">Leave a comment!</h3>
-        <hr className="my-2 border border-gray-200" />
-
-        <input {...register('_id')} type="hidden" value={post._id} name="_id" />
-
-        <label className="mt-2">
-          <span className="block text-gray-700">Name</span>
-          <input
-            className="px-4 py-2 rounded w-full border border-gray-400 form-input focus:outline-none focus:ring-yellow-500 focus:ring-1"
-            type="text"
-            placeholder="Your name"
-            {...register('name', { required: true })}
-          />
-        </label>
-        <label className="mt-2">
-          <span className="block text-gray-700">Email</span>
-          <input
-            className="px-4 py-2 rounded w-full border border-gray-400 form-input focus:outline-none focus:ring-yellow-500 focus:ring-1"
-            placeholder="Your email"
-            type="email"
-            {...register('email', { required: true })}
-          />
-        </label>
-        <label className="mt-2">
-          <span className="block text-gray-700 my-2">Comment</span>
-          <textarea
-            className="form-textarea w-full px-2 py-4 mt-2 border border-gray-400 rounded shadow-sm outline-none focus:ring-yellow-500 focus:ring-1"
-            placeholder="Your comment"
-            rows={8}
-            {...register('comment', { required: true })}
-          />
-        </label>
-
-        <div className="flex flex-col p-5">
-          {errors.name && <span className="text-red-500">Please fill your name</span>}
-          {errors.email && <span className="text-red-500">Please fill your email</span>}
-          {errors.comment && <span className="text-red-500">Please fill your comment</span>}
+      {submited ? (
+        <div className="max-w-xl mx-auto text-center p-5">
+          <h3 className="text-2xl text-green-700 font-bold">Thank you for submiting</h3>
+          <p className="text-lg text-green-700">
+            Once approved, your comment will be shown below {`:)`}
+          </p>
         </div>
+      ) : (
+        <form className="max-w-xl mx-auto flex flex-col p-5" onSubmit={handleSubmit(onSubmit)}>
+          <h3 className="text-3xl font-bold">Leave a comment!</h3>
+          <hr className="my-2 border border-gray-200" />
 
-        <input
-          type="submit"
-          value="Submit"
-          className="bg-green-500 px-2 py-3 text-white font-bold cursor-pointer focus:outline-none hover:bg-green-400"
-        />
-      </form>
+          <input {...register('_id')} type="hidden" value={post._id} name="_id" />
+
+          <label className="mt-2">
+            <span className="block text-gray-700">Name</span>
+            <input
+              className="px-4 py-2 rounded w-full border border-gray-400 form-input focus:outline-none focus:ring-yellow-500 focus:ring-1"
+              type="text"
+              placeholder="Your name"
+              {...register('name', { required: true })}
+            />
+          </label>
+          <label className="mt-2">
+            <span className="block text-gray-700">Email</span>
+            <input
+              className="px-4 py-2 rounded w-full border border-gray-400 form-input focus:outline-none focus:ring-yellow-500 focus:ring-1"
+              placeholder="Your email"
+              type="email"
+              {...register('email', { required: true })}
+            />
+          </label>
+          <label className="mt-2">
+            <span className="block text-gray-700 my-2">Comment</span>
+            <textarea
+              className="form-textarea w-full px-2 py-4 mt-2 border border-gray-400 rounded shadow-sm outline-none focus:ring-yellow-500 focus:ring-1"
+              placeholder="Your comment"
+              rows={8}
+              {...register('comment', { required: true })}
+            />
+          </label>
+
+          <div className="flex flex-col p-5">
+            {errors.name && <span className="text-red-500">Please fill your name</span>}
+            {errors.email && <span className="text-red-500">Please fill your email</span>}
+            {errors.comment && <span className="text-red-500">Please fill your comment</span>}
+          </div>
+
+          <input
+            type="submit"
+            value="Submit"
+            className="bg-green-500 px-2 py-3 text-white font-bold cursor-pointer focus:outline-none hover:bg-green-400"
+          />
+        </form>
+      )}
+
+      {/* Comment */}
+      <div className="max-w-xl mx-auto p-5 shadow shadow-yellow-500 mb-8">
+        <h3 className="text-2xl font-bold text-gray-500">Comments</h3>
+        {comment?.map(({ _id, comment, name }) => (
+          <div className="flex items-center my-3" key={_id}>
+            <img
+              className="bg-gray-300 mr-4 w-12 h-12 p-2 rounded-full object-cover"
+              src="/avatar.png"
+              alt=""
+            />
+            <div className="flex-1">
+              <h3 className='text-xl font-bold'>{name}</h3>
+              <p>{comment}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </main>
   )
 }
@@ -167,15 +198,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     _createdAt,
     title,
     author -> {
-    name,
-    image
-  },
-  description,
-  mainImage,
+      name, 
+      image
+    },
+    'comment': *[
+    _type == 'comment' &&
+    post._ref == ^._id &&
+    approved == true
+    ],
+    description,
+    mainImage,
     slug{
     current
-  },
-  body
+    },
+    body
   }`
   const post = await sanityClient.fetch(query, {
     slug: params?.slug,

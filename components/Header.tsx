@@ -50,7 +50,7 @@ function Header() {
               Sign in
             </h3>
           </Link>
-          <h3 className="px-4 py-1 border border-green-600 rounded-full hover:bg-green-600 hover:text-white ease-in-out duration-300">
+          <h3 className="hidden md:inline-flex px-4 py-1 border border-green-600 rounded-full hover:bg-green-600 hover:text-white ease-in-out duration-300">
             Get started
           </h3>
         </div>

@@ -4,7 +4,7 @@ export default {
   title: 'Comment',
   fields: [
     {
-      name: 'name',
+      name: 'displayName',
       type: 'string',
     },
     {
@@ -20,6 +20,10 @@ export default {
     {
       name: 'comment',
       type: 'text',
+    },
+    {
+      name: 'photoURL',
+      type: 'string',
     },
     {
       name: 'post',

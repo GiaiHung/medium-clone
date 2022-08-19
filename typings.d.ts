@@ -17,23 +17,24 @@ export interface PostProps {
 }
 
 export interface Post extends PostProps {
-  _createdAt: string,
-  body: object[],
-  comment: Comment[];
+  _createdAt: string
+  body: object[]
+  comment: Comment[]
 }
 
 export interface Comment {
-  approved: boolean;
-  comment: string;
-  email: string;
-  name: string;
+  approved: boolean
+  comment: string
+  email: string
+  displayName: string
+  photoURL: string
   post: {
-    _ref: string;
-    _type: string;
-  };
-  _createdAt: string;
-  _id: string;
-  _rev: string;
-  _type: string;
-  _updateAt: string;
+    _ref: string
+    _type: string
+  }
+  _createdAt: string
+  _id: string
+  _rev: string
+  _type: string
+  _updateAt: string
 }

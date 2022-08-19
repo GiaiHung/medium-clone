@@ -12,7 +12,7 @@ const config = {
 const client = sanityClient(config)
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {_id, name, email, comment} = JSON.parse(req.body)
+  const {_id, displayName, email, comment, photoURL} = JSON.parse(req.body)
 
   try {
     await client.create({
@@ -21,9 +21,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         _type: 'reference',
         _ref: _id
       },
-      name,
+      displayName,
       email,
-      comment
+      comment,
+      photoURL
     }) 
   } catch (error) {
     return res.status(500).json({ message: 'Could not update user comment', error})

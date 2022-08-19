@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+import { useEffect } from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import Post from '../components/Post'
@@ -8,11 +8,34 @@ import Post from '../components/Post'
 import { sanityClient, urlFor } from '../sanity'
 import { PostProps } from '../typings'
 
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../firebase-config'
+import { useDispatch } from 'react-redux'
+import { login, logout } from '../features/userSlice'
+
 interface Props {
   posts: [PostProps]
 }
 
 const Home = ({ posts }: Props) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(
+          login({
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+          })
+        )
+      } else {
+        dispatch(logout())
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="max-w-6xl mx-auto">
       <Head>
@@ -22,9 +45,9 @@ const Home = ({ posts }: Props) => {
       </Head>
 
       <Header />
-      <Hero />      
+      <Hero />
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 gap-3 md:gap-6 md:px-0'>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 gap-3 md:gap-6 md:px-0">
         {posts.map(({ slug, _id, mainImage, author, title, description }) => (
           <Post
             key={_id}
